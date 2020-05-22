@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Implementation
 {
-    public class Logging : ILogging
+    public class Login2 : ILogin
     {
-        public bool Login(string user, string password)
+        public bool UserLogin(string user, string password)
         {
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

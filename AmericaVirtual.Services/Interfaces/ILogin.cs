@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Interfaces
 {
-    public interface ILogging
+    public interface ILogin
     {
-        bool Login(string user,string password);
+        bool UserLogin(string user,string password);
     }
 }
