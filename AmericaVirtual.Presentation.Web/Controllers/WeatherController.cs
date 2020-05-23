@@ -13,10 +13,37 @@ namespace AmericaVirtual.Presentation.Web.Controllers
         // GET: Weather
         public ActionResult Index()
         {
+            //ILogin login = new Login();
+            //Loging loging = new Loging();
+            //login.UserLogin("fernando","rivera");
+            //if(!string.IsNullOrEmpty(login))
+
+            //return View();
+
             ILogin login = new Login();
             //Loging loging = new Loging();
-            login.UserLogin("fernando","rivera");
-            return View();
+
+            bool logged = login.UserLogin("", "");
+
+            if (logged)
+                return View();
+            else
+                return View("NotLogged");
+        }
+
+
+
+        public ActionResult Login()
+        {
+            ILogin login = new Login();
+            //Loging loging = new Loging();
+
+            bool logged = login.UserLogin("fernando", "rivera");
+
+            if(logged)
+                return View();
+            else
+                return View("NotLogged");
         }
     }
 }

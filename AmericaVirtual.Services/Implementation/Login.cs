@@ -1,5 +1,8 @@
 ﻿using AmericaVirtual.Services.Interfaces;
+using AmericaVirtual.Services.Requests;
+using AmericaVirtual.Services.Responses;
 using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,60 +15,31 @@ namespace AmericaVirtual.Services.Implementation
     public class Login : ILogin
     {
         private string _url { get; set; }
+
         public Login()
         {
             _url = "https://localhost:44361/api/Weather";
         }
-        public bool UserLogin(string user, string password)
+
+        public bool UserLogin(string _username, string _password)
         {
-            using (HttpClient client = new HttpClient())
+            try
             {
-                string url = _url + "?username=" + user + "&password=" + password;
-                client.BaseAddress = new Uri(url);
-                var responseTask = client.GetAsync(_url);
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsStringAsync();
-                    readTask.Wait();
-                    var content = new StringContent(JsonConvert.SerializeObject(readTask));
-
-                    //JsonConvert.DeserializeObject<User>(response);
-                    return true;
-
-                    //return readTask.Result;
-                }
-                return false;
-
-                
-                //client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
-                ////var request = client.GetAsync("[api url here]", content);
-
-                //HttpResponseMessage response = client.GetAsync(url);
-
-                //string data = await response.Content.ReadAsStringAsync();
-
-                //if (response.IsSuccessStatusCode)
-                //{
-                //    return true;
-                //}
-                //else
-                //{
-                //    return false;
-                //}
-
-                //var content = new StringContent(JsonConvert.SerializeObject(data));
-                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-                //var request = http.PostAsync("[api url here]", content);
-
-                //var response = request.Result.Content.ReadAsStringAsync().Result;
-
-                //return JsonConvert.DeserializeObject<ResponseModelType>(response);
+                RestRequest request;
+                var client = new RestClient(_url);
+                request = new RestRequest() { Method = Method.POST };
+                request.Parameters.Clear();
+                request.AddHeader("Content-Type", "application/json");
+                request.AddJsonBody(JsonConvert.SerializeObject(new LoginRequest { username = _username, password = _password }));
+                var response = client.Execute(request);
+                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response.Content);
+                return loginResponse.result;
             }
+            catch (Exception)
+            {
+
+                throw;
+            }        
         }
     }
 }

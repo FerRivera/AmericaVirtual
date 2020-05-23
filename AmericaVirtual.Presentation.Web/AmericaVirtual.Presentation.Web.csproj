@@ -167,6 +167,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="_AdminLayoutPage.cshtml" />
     <Content Include="Views\Weather\Index.cshtml" />
+    <Content Include="Views\Weather\NotLogged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
