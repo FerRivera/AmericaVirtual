@@ -1,4 +1,6 @@
 ﻿using AmericaVirtual.Domain.Entities;
+using AmericaVirtual.Services.Interfaces;
+using AmericaVirtual.Services.Responses;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -9,31 +11,31 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Implementation
 {
-    public class WeatherService
+    public class WeatherService : IWeatherService
     {
         private string _url { get; set; }
 
         public WeatherService()
         {
-            _url = "https://localhost:44361/api/Weather/GetActiveCitiesByCountry";
+            _url = "https://localhost:44361/api/Weather/";
         }
 
-        public List<Weather> GetCitiesByCountry(int _countryId)
+        public WeatherResponse GetWeatherConditionsByCity(int cityId)
         {
             try
             {
                 RestRequest request;
-                var client = new RestClient(_url + "/?idCountry=" + _countryId);
+                var client = new RestClient(_url + "GetWeatherConditionsByCity?idCity=" + cityId);
                 request = new RestRequest() { Method = Method.GET };
                 request.Parameters.Clear();
                 request.AddHeader("Content-Type", "application/json");
                 var response = client.Execute(request);
-                var citiesResponse = JsonConvert.DeserializeObject<List<Weather>>(response.Content);
+                var weatherConditionResponse = JsonConvert.DeserializeObject<WeatherResponse>(response.Content);
 
-                if (citiesResponse != null)
-                    return citiesResponse;
+                if (weatherConditionResponse != null)
+                    return weatherConditionResponse;
                 else
-                    return new List<Weather>();
+                    return new WeatherResponse();
             }
             catch (Exception ex)
             {

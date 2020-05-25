@@ -22,28 +22,24 @@ namespace AmericaVirtual.Presentation.Web.Controllers
             return View("Index",viewModel);
         }
 
-        //private SelectList CitySelectList(int countryId)
-        //{
-        //    CityServices city = new CityServices();
+        private List<WeatherCondition> GetWeatherConditions(int cityId)
+        {
+            IWeatherService weatherService = new WeatherService();
 
-        //    List<City> cities = city.GetCitiesByCountry(countryId);
+            WeatherResponse weatherResponse = weatherService.GetWeatherConditionsByCity(cityId);
+            List<WeatherCondition> weatherConditionsList = new List<WeatherCondition>();
+            weatherConditionsList = weatherResponse.weatherConditions;
 
-        //    var selectList = new SelectList(cities, "id", "city");
-
-        //    return selectList;
-        //}
+            return weatherConditionsList;
+        }
 
         private SelectList CountrySelectList()
         {
-            CountryServices country = new CountryServices();
+            ICountryServices country = new CountryServices();
 
             CountryResponse countriesResponse = country.GetCountries();
             List<Country> countriesList = new List<Country>();
-
-            foreach (var countryTemp in countriesResponse.countries)
-            {
-                countriesList.Add(countryTemp);
-            }
+            countriesList = countriesResponse.countries;
 
             var selectList = new SelectList(countriesList, "id","name");
 
@@ -67,6 +63,9 @@ namespace AmericaVirtual.Presentation.Web.Controllers
                 List<SelectListItem> citiesSelectList = new List<SelectListItem>();
                 var citySelectList = new SelectList(citiesSelectList, "Value", "Text");
                 viewModel.cityList = citySelectList;
+
+                var weatherConditions = GetWeatherConditions(1);
+                viewModel.weatherConditions = weatherConditions;
             }
 
             return View("Index", viewModel);
@@ -74,16 +73,11 @@ namespace AmericaVirtual.Presentation.Web.Controllers
 
         public JsonResult GetCities(int countryId)
         {
-            CityServices city = new CityServices();
-            List<City> citiesList = new List<City>();            
+            ICityServices city = new CityServices();            
 
             CityResponse citiesResponse = city.GetCitiesByCountry(countryId);
-
-            foreach (var cityTemp in citiesResponse.cities)
-            {
-                citiesList.Add(cityTemp);
-            }
-            //List<City> cities = city.GetCitiesByCountry(countryId);
+            List<City> citiesList = new List<City>();
+            citiesList = citiesResponse.cities;
 
             List<SelectListItem> citiesSelectList = new List<SelectListItem>();
 
@@ -95,6 +89,17 @@ namespace AmericaVirtual.Presentation.Web.Controllers
             }
 
             return Json(new SelectList(citiesSelectList, "Value", "Text"));
+        }
+
+        public JsonResult GetWeatherConditionsJson(int cityId)
+        {
+            IWeatherService weatherService = new WeatherService();
+
+            WeatherResponse weatherResponse = weatherService.GetWeatherConditionsByCity(cityId);
+            List<WeatherCondition> weatherConditionsList = new List<WeatherCondition>();
+            weatherConditionsList = weatherResponse.weatherConditions;
+
+            return Json(weatherConditionsList);
         }
     }
 }
