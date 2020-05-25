@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AmericaVirtual.Domain.Entities;
+using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,28 +18,28 @@ namespace AmericaVirtual.Services.Implementation
             _url = "https://localhost:44361/api/Weather/GetActiveCitiesByCountry";
         }
 
-        //public List<City> GetCitiesByCountry(int _countryId)
-        //{
-        //    try
-        //    {
-        //        RestRequest request;
-        //        var client = new RestClient(_url + "/?idCountry=" + _countryId);
-        //        request = new RestRequest() { Method = Method.GET };
-        //        request.Parameters.Clear();
-        //        request.AddHeader("Content-Type", "application/json");
-        //        var response = client.Execute(request);
-        //        var citiesResponse = JsonConvert.DeserializeObject<List<City>>(response.Content);
+        public List<Weather> GetCitiesByCountry(int _countryId)
+        {
+            try
+            {
+                RestRequest request;
+                var client = new RestClient(_url + "/?idCountry=" + _countryId);
+                request = new RestRequest() { Method = Method.GET };
+                request.Parameters.Clear();
+                request.AddHeader("Content-Type", "application/json");
+                var response = client.Execute(request);
+                var citiesResponse = JsonConvert.DeserializeObject<List<Weather>>(response.Content);
 
-        //        if (citiesResponse != null)
-        //            return citiesResponse;
-        //        else
-        //            return new List<City>();
-        //    }
-        //    catch (Exception ex)
-        //    {
+                if (citiesResponse != null)
+                    return citiesResponse;
+                else
+                    return new List<Weather>();
+            }
+            catch (Exception ex)
+            {
 
-        //        throw;
-        //    }
-        //}
+                throw;
+            }
+        }
     }    
 }

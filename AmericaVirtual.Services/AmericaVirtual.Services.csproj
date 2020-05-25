@@ -52,6 +52,7 @@
     <Compile Include="Implementation\CountryServices.cs" />
     <Compile Include="Implementation\LoginServices.cs" />
     <Compile Include="Implementation\WeatherService.cs" />
+    <Compile Include="Interfaces\ICityServices.cs" />
     <Compile Include="Interfaces\ICountryServices.cs" />
     <Compile Include="Interfaces\ILoginServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

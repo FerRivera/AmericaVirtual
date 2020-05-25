@@ -2,6 +2,7 @@
 using AmericaVirtual.Presentation.Web.Models.ViewModels;
 using AmericaVirtual.Services.Implementation;
 using AmericaVirtual.Services.Interfaces;
+using AmericaVirtual.Services.Responses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,9 +37,15 @@ namespace AmericaVirtual.Presentation.Web.Controllers
         {
             CountryServices country = new CountryServices();
 
-            List<Country> countries = country.GetCountries();
+            CountryResponse countriesResponse = country.GetCountries();
+            List<Country> countriesList = new List<Country>();
 
-            var selectList = new SelectList(countries,"id","name");
+            foreach (var countryTemp in countriesResponse.countries)
+            {
+                countriesList.Add(countryTemp);
+            }
+
+            var selectList = new SelectList(countriesList, "id","name");
 
             return selectList;
         }
@@ -68,14 +75,21 @@ namespace AmericaVirtual.Presentation.Web.Controllers
         public JsonResult GetCities(int countryId)
         {
             CityServices city = new CityServices();
+            List<City> citiesList = new List<City>();            
 
-            List<City> cities = city.GetCitiesByCountry(countryId);
+            CityResponse citiesResponse = city.GetCitiesByCountry(countryId);
+
+            foreach (var cityTemp in citiesResponse.cities)
+            {
+                citiesList.Add(cityTemp);
+            }
+            //List<City> cities = city.GetCitiesByCountry(countryId);
 
             List<SelectListItem> citiesSelectList = new List<SelectListItem>();
 
             citiesSelectList.Add(new SelectListItem { Text = "Seleccione", Value = "0" });
 
-            foreach (var cityTemp in cities)
+            foreach (var cityTemp in citiesList)
             {
                 citiesSelectList.Add(new SelectListItem { Text = cityTemp.city, Value = cityTemp.id.ToString()});
             }

@@ -11,6 +11,5 @@ namespace AmericaVirtual.Domain.Entities
         public int id { get; set; }
         public string city { get; set; }
         public int active { get; set; }
-        public string errors { get; set; }
     }
 }

@@ -9,10 +9,7 @@ namespace AmericaVirtual.Services.Responses
 {
     public class CityResponse
     {
-        //public List<City> cities { get; set; }
-        //public int id { get; set; }
-        //public string city { get; set; }
-        //public int active { get; set; }
-        //public string errors { get; set; }
+        public List<City> cities { get; set; }
+        public string errors { get; set; }
     }
 }

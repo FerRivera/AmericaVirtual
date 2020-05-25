@@ -21,7 +21,7 @@ namespace AmericaVirtual.Services.Implementation
         {
             _url = "https://localhost:44361/api/Weather/GetActiveCountries";
         }
-        public List<Country> GetCountries()
+        public CountryResponse GetCountries()
         {
             try
             {
@@ -31,12 +31,12 @@ namespace AmericaVirtual.Services.Implementation
                 request.Parameters.Clear();
                 request.AddHeader("Content-Type", "application/json");
                 var response = client.Execute(request,Method.GET);
-                var countriesResponse = JsonConvert.DeserializeObject<List<Country>>(response.Content);
+                var countriesResponse = JsonConvert.DeserializeObject<CountryResponse>(response.Content);
                 
                 if (countriesResponse != null)
                     return countriesResponse;
                 else
-                    return new List<Country>();
+                    return new CountryResponse();
             }
             catch (Exception ex)
             {

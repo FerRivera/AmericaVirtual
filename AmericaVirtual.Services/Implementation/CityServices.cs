@@ -1,4 +1,5 @@
 ﻿using AmericaVirtual.Domain.Entities;
+using AmericaVirtual.Services.Interfaces;
 using AmericaVirtual.Services.Requests;
 using AmericaVirtual.Services.Responses;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Implementation
 {
-    public class CityServices
+    public class CityServices : ICityServices
     {
         private string _url { get; set; }
 
@@ -20,7 +21,7 @@ namespace AmericaVirtual.Services.Implementation
             _url = "https://localhost:44361/api/Weather/GetActiveCitiesByCountry";
         }
 
-        public List<City> GetCitiesByCountry(int _countryId)
+        public CityResponse GetCitiesByCountry(int _countryId)
         {
             try
             {
@@ -30,12 +31,12 @@ namespace AmericaVirtual.Services.Implementation
                 request.Parameters.Clear();
                 request.AddHeader("Content-Type", "application/json");
                 var response = client.Execute(request);
-                var citiesResponse = JsonConvert.DeserializeObject<List<City>>(response.Content);
+                var citiesResponse = JsonConvert.DeserializeObject<CityResponse>(response.Content);
 
                 if (citiesResponse != null)
                     return citiesResponse;
                 else
-                    return new List<City>();
+                    return new CityResponse();
             }
             catch (Exception ex)
             {
