@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AmericaVirtual.Services.Interfaces
+namespace AmericaVirtual.Domain.Entities
 {
-    public interface ILogin
+    class Weather
     {
-        bool UserLogin(string user,string password);
     }
 }

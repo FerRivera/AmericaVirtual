@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Responses
 {
-    public class LoginResponse
+    public class CountryResponse
     {
-        //public bool result { get; set; }
+        //public int id { get; set; }
+        //public string name { get; set; }
+        //public int active { get; set; }
         //public string errors { get; set; }
     }
 }
