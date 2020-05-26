@@ -1,5 +1,4 @@
-﻿using AmericaVirtual.Domain.Entities;
-using AmericaVirtual.Services.Responses;
+﻿using AmericaVirtual.Services.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Interfaces
 {
-    public interface ICountryServices
+    public interface IWeatherService
     {
-        CountryResponse GetCountries();
+        WeatherResponse GetWeatherConditionsByCity(int cityId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AmericaVirtual.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,7 @@ namespace AmericaVirtual.Services.Responses
 {
     public class CountryResponse
     {
-        //public int id { get; set; }
-        //public string name { get; set; }
-        //public int active { get; set; }
-        //public string errors { get; set; }
+        public List<Country> countries { get; set; }
+        public string errors { get; set; }
     }
 }

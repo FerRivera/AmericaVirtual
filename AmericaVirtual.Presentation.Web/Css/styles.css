@@ -1,7 +1,3 @@
-body {
-    overflow:hidden;
-}
-
 .nav {
     background-color: #FF6859;
     padding: 10px 0px;
@@ -108,4 +104,49 @@ hr {
 
 .navbar-brand {
     color:white !important;
+}
+
+
+.day-title {
+    font-weight: 700;
+    font-size: 1.5em;
+    text-align:center;
+    color: gray;
+    text-transform: uppercase;
+}
+
+label {
+    margin-bottom:none !important;
+}
+
+.temperature {
+    font-weight: 700;
+    font-size: 1em; 
+    text-align: center !important;
+    color: black;
+    text-transform: uppercase;
+}
+
+#cityLabel{
+    font-size:25px;
+    color:gray;
+    font-weight:300;
+}
+
+#countryLabel {
+    font-size: 16px;
+    color: gray;
+    font-weight: 300;
+}
+
+#celsiusLabel {
+    font-size: 70px;
+    color: black;
+    font-weight: 700;
+}
+
+#dayWeatherLabel {
+    font-size: 30px;
+    color: black;
+    font-weight: 500;
 }

@@ -151,6 +151,10 @@
     <Content Include="Images\login.png" />
     <Content Include="Images\logo_america_rojo.png" />
     <Content Include="Images\logo_america_negro.png" />
+    <Content Include="Images\wi-cloudy.png" />
+    <Content Include="Images\wi-day-sunny.png" />
+    <Content Include="Images\wi-rain.png" />
+    <Content Include="Images\wi-snow.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\weathericons-regular-webfont.eot" />

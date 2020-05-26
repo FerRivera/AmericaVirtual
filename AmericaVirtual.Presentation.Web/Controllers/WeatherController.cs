@@ -2,6 +2,7 @@
 using AmericaVirtual.Presentation.Web.Models.ViewModels;
 using AmericaVirtual.Services.Implementation;
 using AmericaVirtual.Services.Interfaces;
+using AmericaVirtual.Services.Responses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,26 +22,36 @@ namespace AmericaVirtual.Presentation.Web.Controllers
             return View("Index",viewModel);
         }
 
-        //private SelectList CitySelectList(int countryId)
-        //{
-        //    CityServices city = new CityServices();
+        private List<WeatherCondition> GetWeatherConditions(int cityId)
+        {
+            IWeatherService weatherService = new WeatherService();
 
-        //    List<City> cities = city.GetCitiesByCountry(countryId);
+            WeatherResponse weatherResponse = weatherService.GetWeatherConditionsByCity(cityId);
+            List<WeatherCondition> weatherConditionsList = new List<WeatherCondition>();
+            weatherConditionsList = weatherResponse.weatherConditions;
 
-        //    var selectList = new SelectList(cities, "id", "city");
-
-        //    return selectList;
-        //}
+            return weatherConditionsList;
+        }
 
         private SelectList CountrySelectList()
         {
-            CountryServices country = new CountryServices();
+            ICountryServices country = new CountryServices();
 
-            List<Country> countries = country.GetCountries();
+            CountryResponse countriesResponse = country.GetCountries();
+            List<Country> countriesList = new List<Country>();
+            countriesList = countriesResponse.countries;
 
-            var selectList = new SelectList(countries,"id","name");
+            var selectList = new SelectList(countriesList, "id","name");
 
             return selectList;
+        }
+
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            var viewModel = new WeatherViewModel();
+            viewModel.isLogged = false;
+            return View("Index", viewModel);
         }
 
         [HttpPost]
@@ -60,6 +71,11 @@ namespace AmericaVirtual.Presentation.Web.Controllers
                 List<SelectListItem> citiesSelectList = new List<SelectListItem>();
                 var citySelectList = new SelectList(citiesSelectList, "Value", "Text");
                 viewModel.cityList = citySelectList;
+
+                var weatherConditions = GetWeatherConditions(1);
+                viewModel.weatherConditions = weatherConditions;
+
+                viewModel.username = username;
             }
 
             return View("Index", viewModel);
@@ -67,20 +83,33 @@ namespace AmericaVirtual.Presentation.Web.Controllers
 
         public JsonResult GetCities(int countryId)
         {
-            CityServices city = new CityServices();
+            ICityServices city = new CityServices();            
 
-            List<City> cities = city.GetCitiesByCountry(countryId);
+            CityResponse citiesResponse = city.GetCitiesByCountry(countryId);
+            List<City> citiesList = new List<City>();
+            citiesList = citiesResponse.cities;
 
             List<SelectListItem> citiesSelectList = new List<SelectListItem>();
 
             citiesSelectList.Add(new SelectListItem { Text = "Seleccione", Value = "0" });
 
-            foreach (var cityTemp in cities)
+            foreach (var cityTemp in citiesList)
             {
                 citiesSelectList.Add(new SelectListItem { Text = cityTemp.city, Value = cityTemp.id.ToString()});
             }
 
             return Json(new SelectList(citiesSelectList, "Value", "Text"));
+        }
+
+        public JsonResult GetWeatherConditionsJson(int cityId)
+        {
+            IWeatherService weatherService = new WeatherService();
+
+            WeatherResponse weatherResponse = weatherService.GetWeatherConditionsByCity(cityId);
+            List<WeatherCondition> weatherConditionsList = new List<WeatherCondition>();
+            weatherConditionsList = weatherResponse.weatherConditions;
+
+            return Json(weatherConditionsList);
         }
     }
 }
