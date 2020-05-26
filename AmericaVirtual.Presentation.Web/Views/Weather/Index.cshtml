@@ -221,9 +221,17 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
+
         $("#country").change(function ()
         {
+            var countryDropDownList = document.getElementById("country");
+            var selectedCountryValue = countryDropDownList.options[countryDropDownList.selectedIndex].value;
+
+            if (selectedCountryValue <= 0)
+                return false;
+
             $("#city").empty();
             $.ajax({
                 type: 'POST',
@@ -248,7 +256,22 @@
 
     function SearchWeatherConditions()
     {
-        var a = $("#city").val();
+        var countryDropDownList = document.getElementById("country");
+        var selectedCountryValue = countryDropDownList.options[countryDropDownList.selectedIndex].value;
+
+        var cityDropDownList = document.getElementById("city");
+        var selectedCityValue = cityDropDownList.options[cityDropDownList.selectedIndex].value;
+
+        if (selectedCountryValue <= 0)
+        {
+            alert('Por favor seleccione un pais');
+            return false;
+        }
+
+        if (selectedCityValue <= 0) {
+            alert('Por favor seleccione una ciudad');
+            return false;
+        }
 
         $.ajax({
             type: 'POST',
