@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Responses
 {
-    public class CityResponse
+    public class WeatherResponse
     {
-        public List<City> cities { get; set; }
+        public List<WeatherCondition> weatherConditions { get; set; }
         public string errors { get; set; }
     }
 }

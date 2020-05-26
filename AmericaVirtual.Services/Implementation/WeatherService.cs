@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AmericaVirtual.Domain.Entities;
+using AmericaVirtual.Services.Interfaces;
+using AmericaVirtual.Services.Responses;
+using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,37 +11,37 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.Services.Implementation
 {
-    public class WeatherService
+    public class WeatherService : IWeatherService
     {
         private string _url { get; set; }
 
         public WeatherService()
         {
-            _url = "https://localhost:44361/api/Weather/GetActiveCitiesByCountry";
+            _url = "https://localhost:44361/api/Weather/";
         }
 
-        //public List<City> GetCitiesByCountry(int _countryId)
-        //{
-        //    try
-        //    {
-        //        RestRequest request;
-        //        var client = new RestClient(_url + "/?idCountry=" + _countryId);
-        //        request = new RestRequest() { Method = Method.GET };
-        //        request.Parameters.Clear();
-        //        request.AddHeader("Content-Type", "application/json");
-        //        var response = client.Execute(request);
-        //        var citiesResponse = JsonConvert.DeserializeObject<List<City>>(response.Content);
+        public WeatherResponse GetWeatherConditionsByCity(int cityId)
+        {
+            try
+            {
+                RestRequest request;
+                var client = new RestClient(_url + "GetWeatherConditionsByCity?idCity=" + cityId);
+                request = new RestRequest() { Method = Method.GET };
+                request.Parameters.Clear();
+                request.AddHeader("Content-Type", "application/json");
+                var response = client.Execute(request);
+                var weatherConditionResponse = JsonConvert.DeserializeObject<WeatherResponse>(response.Content);
 
-        //        if (citiesResponse != null)
-        //            return citiesResponse;
-        //        else
-        //            return new List<City>();
-        //    }
-        //    catch (Exception ex)
-        //    {
+                if (weatherConditionResponse != null)
+                    return weatherConditionResponse;
+                else
+                    return new WeatherResponse();
+            }
+            catch (Exception ex)
+            {
 
-        //        throw;
-        //    }
-        //}
+                throw;
+            }
+        }
     }    
 }
