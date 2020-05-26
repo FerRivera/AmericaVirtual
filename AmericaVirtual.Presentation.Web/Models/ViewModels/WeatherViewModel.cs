@@ -25,5 +25,11 @@ namespace AmericaVirtual.Presentation.Web.Models.ViewModels
         public int city { get; set; }
         public bool isLogged { get; set; }
         public List<WeatherCondition> weatherConditions { get; set; }
+        public int temperatureCelsius { get; set; }
+        public decimal temperatureFahrenheit { get; set; }
+        public int precipitation { get; set; }
+        public int humidity { get; set; }
+        public int wind { get; set; }
+        public string username { get; set; }
     }
 }

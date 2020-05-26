@@ -47,6 +47,14 @@ namespace AmericaVirtual.Presentation.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Logout()
+        {
+            var viewModel = new WeatherViewModel();
+            viewModel.isLogged = false;
+            return View("Index", viewModel);
+        }
+
+        [HttpPost]
         public ActionResult Login([Required]string username, [Required]string password)
         {
             ILoginServices login = new LoginServices();
@@ -66,6 +74,8 @@ namespace AmericaVirtual.Presentation.Web.Controllers
 
                 var weatherConditions = GetWeatherConditions(1);
                 viewModel.weatherConditions = weatherConditions;
+
+                viewModel.username = username;
             }
 
             return View("Index", viewModel);
